@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -17,7 +19,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "resources")
+@NamedQueries({@NamedQuery(name = Resource.FIND_ALL,query = "SELECT r FROM Resource r")})
 public class Resource implements Serializable {
+    
+    /**
+     * Query name
+     */
+    public static final String FIND_ALL = "Resource.findAll";
 
     /**
      * Primary key

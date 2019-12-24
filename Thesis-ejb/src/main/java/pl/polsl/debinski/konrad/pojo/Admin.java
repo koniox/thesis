@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pl.polsl.debinski.konrad.pojo.admin;
+package pl.polsl.debinski.konrad.pojo;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -20,8 +22,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "admins")
+@NamedQueries({
+    @NamedQuery(name = Admin.FIND_ALL,
+            query = "SELECT a FROM Admin a"),
+    @NamedQuery(name = Admin.IS_IN_DATABASE,
+            query = "SELECT a FROM Admin a where a.login LIKE :validationLogin and a.password LIKE :validationPwd"),
+})
 public class Admin implements Serializable {
     
+    public static final String FIND_ALL = "Admin.findAll";
+    public static final String IS_IN_DATABASE = "Admin.isThere";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
