@@ -31,7 +31,7 @@ public class AuthorizationFilter implements Filter{
 
         boolean loggedIn = session != null && session.getAttribute("user") != null;
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
-        if (loggedIn /*|| loginRequest*/ || resourceRequest) {
+        if (loggedIn  || resourceRequest) {
             if(request.getRequestURI().indexOf("adminlogin.xhtml") >= 0){
                 response.sendRedirect("http://localhost:8080/Thesis-web/restricted/adminpanel.xhtml");
             }
