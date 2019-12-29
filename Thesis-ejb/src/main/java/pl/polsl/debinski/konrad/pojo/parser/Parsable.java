@@ -7,6 +7,7 @@ package pl.polsl.debinski.konrad.pojo.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  *
@@ -14,5 +15,5 @@ import java.io.IOException;
  * @version 1.0
  */
 public interface Parsable {
-    public String parse(File file) throws IOException;
+    public Map<String,String> parse(File file) throws IOException;
 }

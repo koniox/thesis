@@ -21,7 +21,10 @@ import java.util.Map;
  * @author debin
  */
 public class JSONParser implements Parsable{
-    public String parse(File file) throws IOException{
+
+   
+    public Map<String, String> parse(File file) throws IOException{
+        Map<String,String> parsedMap = new LinkedHashMap<>();
         List<Map<String,String>> data = new ArrayList<>();
 
         JsonReader reader = new JsonReader(new FileReader(file));
@@ -34,9 +37,23 @@ public class JSONParser implements Parsable{
 
         reader.close();
         
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        for(String key: data.get(0).keySet()){
+            sb.append(key);
+            if(i++ != data.get(0).size() - 1){
+                sb.append(",");
+            }
+        }
+
+
+       
         String json = new Gson().toJson(data);
         
-        return json;
+        parsedMap.put("labels", sb.toString());
+        parsedMap.put("json", json);
+        
+        return parsedMap;
 
     }
     private Map<String, String> readElement(JsonReader reader) throws IOException {

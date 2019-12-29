@@ -9,12 +9,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -31,15 +35,58 @@ import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
  * @author Konrad Dębiński
  * @version 1.0
  */
-@ManagedBean
-@RequestScoped
+@ManagedBean(name = "fileBean", eager = true)
+@SessionScoped
 public class FileBean implements Serializable{
     private UploadedFile file;
-//    private Resource resource;
-//    private ParserFactory parserFactory;
-    @EJB
-    ResourceBean resourceBean;
+    private Map<String,String> fileData;
+    private String fileName;
+    
+    public void handleFileUpload(FileUploadEvent event) throws IOException, Exception {
+        this.file = event.getFile();
+        fileName = file.getFileName();
+        InputStream in = file.getInputstream();
+        File myFile = new File(fileName);
+        FileUtils.copyInputStreamToFile(in, myFile);
+      
+        ParserFactory parserFactory = new ParserFactory();
 
+        Parser parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
+
+        fileData = parser.getJson(myFile);
+
+
+        if (file != null) {
+            FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+        else{
+            FacesMessage message = new FacesMessage("Jd", " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+        
+        
+          
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    
+    public Map<String, String> getFileData() {
+        return fileData;
+    }
+
+    public void setFileData(Map<String, String> fileData) {
+        this.fileData = fileData;
+    }
+    
+    
     public UploadedFile getFile() {
         return file;
     }
@@ -47,34 +94,8 @@ public class FileBean implements Serializable{
     public void setFile(UploadedFile file) {
         this.file = file;
     }
+
     
-    public void handleFileUpload(FileUploadEvent event) throws IOException {
-          this.file = event.getFile();
-          InputStream in = file.getInputstream();
-          File myFile = new File(file.getFileName());
-          FileUtils.copyInputStreamToFile(in, myFile);
-        try {
-            ParserFactory parserFactory = new ParserFactory();
-            
-            Parser parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
-            Resource resource = new Resource();
-            
-            resource.setJsonDataString(parser.getJson(myFile));
-            resource.setTitle("testing");
-            resource.setLabels("testing");
-            resourceBean.createOrUpdateResource(resource);
-        } catch (Exception ex) {
-            Logger.getLogger(FileBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          
-          if (file != null) {
-              FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
-              FacesContext.getCurrentInstance().addMessage(null, message);
-          }
-          else{
-              FacesMessage message = new FacesMessage("Jd", " is uploaded.");
-              FacesContext.getCurrentInstance().addMessage(null, message);
-          }
-          
-    }
+    
+    
 }

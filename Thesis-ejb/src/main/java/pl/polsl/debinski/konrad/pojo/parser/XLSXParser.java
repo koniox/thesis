@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -29,7 +30,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class XLSXParser implements Parsable{
 
-    public String parse(File file) throws IOException{
+    
+
+    public Map<String,String> parse(File file) throws IOException{
+        Map<String,String> parsedMap = new LinkedHashMap<>();
         List<Map<String,String>> data = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         boolean firstIteration = true;
@@ -73,10 +77,13 @@ public class XLSXParser implements Parsable{
         }
         fs.close();
        
-        
+        String stringLabels = labels.stream().collect(Collectors.joining(","));
         String json = new Gson().toJson(data);
         
-        return json;
+        parsedMap.put("labels", stringLabels);
+        parsedMap.put("json", json);
+        
+        return parsedMap;
 
     }
     

@@ -7,7 +7,8 @@ package pl.polsl.debinski.konrad.pojo.parser;
 
 import java.io.File;
 import java.io.IOException;
-import org.primefaces.model.UploadedFile;
+import java.util.Map;
+
 
 /**
  *
@@ -16,13 +17,18 @@ import org.primefaces.model.UploadedFile;
 public class Parser {
     private Parsable parser;
     
+    
+    public Parser(){
+        
+    }
+    
     public Parser(Parsable parser){
         this.parser = parser;
     }
     
-    public String getJson(File file) throws IOException{
+    public Map<String,String> getJson(File file) throws IOException{
         return parser.parse(file);
     }
     
-    
+   
 }

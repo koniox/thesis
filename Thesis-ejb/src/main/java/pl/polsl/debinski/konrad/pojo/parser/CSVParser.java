@@ -21,12 +21,13 @@ import java.util.Map;
  */
 public class CSVParser implements Parsable{
 
-    public String parse(File file) throws IOException{
+    public Map<String,String> parse(File file) throws IOException{
+        Map<String,String> parsedMap = new LinkedHashMap<>();
         List<Map<String,String>> data = new ArrayList<>();
 
         String line;
-
-        //try with resources is not allowed at level 5 bblabla
+       
+        
         BufferedReader br = new BufferedReader(new FileReader(file));
         String[] labels = {};
         //reading first line for labels
@@ -50,11 +51,21 @@ public class CSVParser implements Parsable{
 
 
         }
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i<labels.length;i++){
+            sb.append(labels[i]);
+            if(i != labels.length-1)
+                sb.append(",");
+        }
 
 
         String json = new Gson().toJson(data);
         
-        return json;
+        parsedMap.put("labels", sb.toString());
+        parsedMap.put("json", json);
+        
+        return parsedMap;
     }
     
 }
