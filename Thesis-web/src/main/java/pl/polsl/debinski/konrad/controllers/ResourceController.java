@@ -6,6 +6,7 @@
 package pl.polsl.debinski.konrad.controllers;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -13,8 +14,10 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.SelectEvent;
 import pl.polsl.debinski.konrad.beans.ResourceBean;
 import pl.polsl.debinski.konrad.pojo.Resource;
 
@@ -23,12 +26,12 @@ import pl.polsl.debinski.konrad.pojo.Resource;
  *
  * @author debin
  */
-@ManagedBean
-@ViewScoped
+@ManagedBean(name = "resourceController", eager = true)
+@SessionScoped
 public class ResourceController implements Serializable{
     
     private Resource resource;
-    private Resource selectedResource;
+    private Integer selectedResource;
     
     @ManagedProperty(value = "#{fileBean}")
     private FileBean fileBean;
@@ -57,6 +60,10 @@ public class ResourceController implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
+    public String ajaxListener() throws IOException{
+        return "resource";
+    }
+    
     public String actionSave(){   
         resourceBean.createOrUpdateResource(resource);
         return "adminpanel";
@@ -71,11 +78,11 @@ public class ResourceController implements Serializable{
         return resourceBean.findAll();
     }
     
-    public Resource getSelectedResource() { 
+    public Integer getSelectedResource() { 
        return selectedResource;
     }
 
-    public void setSelectedResource(Resource selectedResource) {
+    public void setSelectedResource(Integer selectedResource) {
         this.selectedResource = selectedResource;
     }
 

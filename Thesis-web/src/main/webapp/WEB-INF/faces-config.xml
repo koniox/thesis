@@ -16,6 +16,11 @@
             <to-view-id>/restricted/adminpanel.xhtml</to-view-id>
             <redirect/>    
         </navigation-case>
+        <navigation-case>
+            <from-outcome>resource</from-outcome>
+            <to-view-id>/resource.xhtml</to-view-id>
+            <redirect/>    
+        </navigation-case>
 <!--       <from-view-id>/adminlogin.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>admin</from-outcome>

@@ -16,11 +16,18 @@
                              action="adminlogin"/>
         </h:form>
         <h:form style="position: fixed; top: 20%; right: 20%">
+            <p:messages id="sdds" />
             <p:panelGrid columns="1" >
                 <p:selectOneMenu id="resource" value="#{resourceController.selectedResource}">
                     <f:selectItems value="#{resourceController.resources}" var="myResource"
                                    itemLabel="#{myResource.title}" itemValue="#{myResource.id}"/>
+<!--                    <f:ajax event="itemSelect" listener="{resourceController.ajaxListener}"/>-->
+<!--                    <f:ajax listener="{resourceController.ajaxListener()}" render="@form"/>    -->
                 </p:selectOneMenu>
+                <f:facet name="footer">
+                    <p:commandButton id="btn" value="Go to resource"
+                                     action="#{resourceController.ajaxListener()}"/>
+                </f:facet>
             </p:panelGrid>
         </h:form>
     </h:body>
