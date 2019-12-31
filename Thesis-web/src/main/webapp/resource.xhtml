@@ -6,21 +6,21 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <style type="text/css">
+<!--        <style type="text/css">
             .ui-datatable-header {
                 height: 50px
             }
-        </style>
+        </style>-->
         <title>Resource</title>
     </h:head>
     <h:body>
         <h:form>
-            <p:dataTable id="resourcelist" var="data" value="#{myBean.data}">
+            <p:dataTable id="resourcelist" var="data" value="#{myBean.data}" rows="10"
+                            paginator="true"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="5,10,15">
                 <f:facet name="header">
                     #{myBean.resource.title}
-                    
-                    <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="pi pi-align-justify" />
-                    <p:columnToggler datasource="resourcelist" trigger="toggler" />
                 </f:facet>
                 <p:columns value="#{myBean.columns}" var="column" sortBy="#{data[column.property]}" filterBy="#{data[column.property]}">
                     <f:facet name="column">

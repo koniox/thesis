@@ -60,10 +60,7 @@ public class ResourceController implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
-    public String ajaxListener() throws IOException{
-        return "resource";
-    }
-    
+   
     public String actionSave(){   
         resourceBean.createOrUpdateResource(resource);
         return "adminpanel";

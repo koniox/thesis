@@ -59,14 +59,7 @@ public class FileBean implements Serializable{
         if (file != null) {
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-        else{
-            FacesMessage message = new FacesMessage("Jd", " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-        
-        
-          
+        }      
     }
 
     public String getFileName() {

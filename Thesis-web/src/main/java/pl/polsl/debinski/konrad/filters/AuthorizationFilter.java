@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Konrad Dębiński
  */
-@WebFilter(urlPatterns = "/restricted/*",filterName = "AdminFilter")
+@WebFilter(urlPatterns = "/*",filterName = "AdminFilter")
 public class AuthorizationFilter implements Filter{
 
     @Override
@@ -35,6 +35,7 @@ public class AuthorizationFilter implements Filter{
             if(request.getRequestURI().indexOf("adminlogin.xhtml") >= 0){
                 response.sendRedirect("http://localhost:8080/Thesis-web/restricted/adminpanel.xhtml");
             }
+            
             chain.doFilter(request, response);
         } else {
             response.sendRedirect("http://localhost:8080/Thesis-web/adminlogin.xhtml");

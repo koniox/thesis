@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -20,11 +19,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
 import pl.polsl.debinski.konrad.beans.ResourceBean;
 import pl.polsl.debinski.konrad.pojo.Resource;
 import pl.polsl.debinski.konrad.utils.Model;
@@ -37,7 +33,7 @@ import pl.polsl.debinski.konrad.utils.Model;
 @ViewScoped
 public class MyBean implements Serializable{
     private List<Model> columns  = new ArrayList<>();
-    List<Map<String,String>> data;
+    private List<Map<String,String>> data;
     private Resource resource;
     
     @ManagedProperty(value = "#{resourceController}")
