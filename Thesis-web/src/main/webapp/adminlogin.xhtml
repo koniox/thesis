@@ -6,9 +6,9 @@
     <h:head>
         <title>Login as administrator</title>
     </h:head>
-    <h:body>
+    <h:body style="background-image: url('resources/images/image.jpg'); background-size: cover; ">
         <h:form id="loginForm" style="display:block; text-align:center" >
-            <h1>Log in to administrator panel</h1>
+            <h1>Administrator panel</h1>
             <p:growl id="message" showDetail="true" />
             <h:outputText value="Username " />
             <p:inputText id="login" value="#{loginBean.login}"></p:inputText>
@@ -18,9 +18,9 @@
             <h:outputText value="Password  " />
             <p:password id="password"  value="#{loginBean.password}"></p:password>
             <p:message for="password"></p:message>
-            <br></br><br></br>
+            <br></br>
 
-            <p:commandButton value="Login" id="login_btn" actionListener="#{loginBean.validateUsernamePassword}" styleClass="ui-priority-primary" update="message" />
+            <p:commandButton value="Login" id="login_btn" actionListener="#{loginBean.validateUsernamePassword}" update="message" />
         </h:form>
     </h:body>
 </html>

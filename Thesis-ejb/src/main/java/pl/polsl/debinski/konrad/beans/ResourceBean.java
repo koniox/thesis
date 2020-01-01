@@ -58,4 +58,8 @@ public class ResourceBean{
         return em.createNamedQuery("Resource.findAll").getResultList();
     }
     
+    public Resource findById(Integer id){
+        return em.find(Resource.class, id);
+    }
+    
 }
