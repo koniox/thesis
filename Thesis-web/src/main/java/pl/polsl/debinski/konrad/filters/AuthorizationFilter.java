@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Konrad Dębiński
  */
-@WebFilter(urlPatterns = "/*",filterName = "AdminFilter")
+@WebFilter(urlPatterns = "/restricted/*",filterName = "AdminFilter")
 public class AuthorizationFilter implements Filter{
 
     @Override

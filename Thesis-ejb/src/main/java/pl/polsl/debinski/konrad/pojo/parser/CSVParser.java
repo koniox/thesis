@@ -34,7 +34,7 @@ public class CSVParser implements Parsable{
         String[] labels = {};
         //reading first line for labels
         if((line = br.readLine()) != null){
-             labels = line.split(";");
+             labels = line.split(";",-1);
         }
 
 
@@ -43,8 +43,10 @@ public class CSVParser implements Parsable{
 
             Map<String,String> singleRowData = new LinkedHashMap<>();
             // use comma as separator
-            String[] rowData = line.split(";");
-
+            String[] rowData = line.split(";",-1);
+            
+            
+            
             for(int i = 0; i < labels.length;i++){
                 singleRowData.put(labels[i],rowData[i]);
             }

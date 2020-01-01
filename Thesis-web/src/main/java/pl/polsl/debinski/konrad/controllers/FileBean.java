@@ -10,23 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import pl.polsl.debinski.konrad.beans.ResourceBean;
-import pl.polsl.debinski.konrad.pojo.Resource;
-import pl.polsl.debinski.konrad.pojo.parser.Parsable;
 import pl.polsl.debinski.konrad.pojo.parser.Parser;
 import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
 
@@ -36,7 +27,7 @@ import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
  * @version 1.0
  */
 @ManagedBean(name = "fileBean", eager = true)
-@SessionScoped
+@ViewScoped
 public class FileBean implements Serializable{
     private UploadedFile file;
     private Map<String,String> fileData;
@@ -44,7 +35,7 @@ public class FileBean implements Serializable{
     
     public void handleFileUpload(FileUploadEvent event) throws IOException, Exception {
         this.file = event.getFile();
-        fileName = file.getFileName();
+        fileName = FilenameUtils.removeExtension(file.getFileName());
         InputStream in = file.getInputstream();
         File myFile = new File(fileName);
         FileUtils.copyInputStreamToFile(in, myFile);
@@ -61,7 +52,7 @@ public class FileBean implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, message);
         }      
     }
-
+    
     public String getFileName() {
         return fileName;
     }

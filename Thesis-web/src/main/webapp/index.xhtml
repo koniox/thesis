@@ -8,26 +8,16 @@
         <title>List of resources</title>
     </h:head>
     <h:body style="background-image: url('resources/images/image.jpg'); background-size: cover; ">
-        <h:form id="index">
-            <p:commandButton id="admin_login_button"
-                             style="position: fixed; top: 0; left: 0" 
-                             icon="ui-icon-star"
-                             value="Administrator panel"
-                             action="adminlogin"/>
-        </h:form>
-        <h:form style="position: fixed; top: 20%; right: 20%">
-            <p:messages id="sdds" />
-            <p:panelGrid columns="1" >
-                <p:selectOneMenu id="resource" value="#{resourceController.selectedResource}">
-                    <f:selectItems value="#{resourceController.resources}" var="myResource"
-                                   itemLabel="#{myResource.title}" itemValue="#{myResource.id}"/>
-                </p:selectOneMenu>
-                <f:facet name="footer">
-                    <p:commandButton id="btn" value="Go to resource"
-                                     action="resource"/>
-                </f:facet>
-            </p:panelGrid>
-        </h:form>
+        <h:form>
+            
+            <p:button outcome="adminlogin" value="Admin" icon="ui-icon-verified-user" style="position:absolute; top:0; right: 0;"/>
+            <p:selectOneMenu id="resource" value="#{resourceView.selectedResource}" autoWidth="false" style="position: fixed; top:20%; left: 50%; transform: translate(-50%,-50%);">
+                        <f:selectItems value="#{resourceView.resources}" var="myResource"
+                                       itemLabel="#{myResource.title}" itemValue="#{myResource.id}"/>
+                    </p:selectOneMenu>
+            <p:commandButton id="btn" value="Go to resource" style="position: fixed; top:24%; left: 50%; transform: translate(-50%,-50%);"
+                                      action="resource"/>
+        </h:form>           
     </h:body>
 </html>
 
