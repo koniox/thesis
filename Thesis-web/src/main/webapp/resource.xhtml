@@ -17,7 +17,7 @@
                     #{resourcesController.title}
                 </f:facet>
                 <p:columns value="#{resourcesController.columns}" var="column" sortBy="#{data[column.property]}" filterBy="#{data[column.property]}">
-                    <f:facet name="column">
+                    <f:facet name="header">
                         #{column.header}
                     </f:facet>
                     <h:outputText value="#{data[column.property]}"/>
