@@ -9,7 +9,8 @@ import java.io.Serializable;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 public class Model implements Serializable{
     private String header;
@@ -20,8 +21,6 @@ public class Model implements Serializable{
         this.property = property;
     }
 
-    
-    
     public String getHeader() {
         return header;
     }

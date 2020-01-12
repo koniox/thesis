@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Admin panel</title>
     </h:head>
@@ -12,17 +13,30 @@
             <p:growl id="msg" showDetail="true" />
             <p:commandButton action="#{loginBean.logout}"
                          value="Logout"
-                         style="top: 0; float: right;"/>
+                         style="float: right;"/>
+            <p:commandButton action="index"
+                         value="Resources"
+                         style="float: right;"/>
             <p:fileUpload  fileUploadListener="#{fileBean.handleFileUpload}" mode="advanced" auto="true" allowTypes="/(\.|\/)(csv|xls?x|xml|json)$/" update="msg" oncomplete="fileUploadCallback()"/>
-            <p:remoteCommand name="fileUploadCallback" action="#{resourceController.fileUpload()}" update="@form"/>
-            <p:outputLabel value ="Title" for="title"/>
-            <p:inputText id="title" 
+            <p:remoteCommand name="fileUploadCallback" action="#{resourceController.fileUpload()}" update="@form" oncomplete="PF('submitButtonWidget').enable()"/>
+            
+            <p:panelGrid columns="1" style="margin: auto">
+                <p:inputText id="title" 
                          value="#{resourceController.resource.title}"/>
-            <p:watermark value="Title" for="title"/>
-            <p:resizable for="title" />
-            <p:commandButton id="save" value="Submit"
-                             update="@form"
-                             action="#{resourceController.actionSave()}"/>
+                <p:watermark value="Title" for="title"/>
+                <p:inputText id="address"
+                             value="#{resourceController.resource.addressURL}"/>
+                <p:watermark value="Address" for="address"/>
+                <p:resizable for="title" />
+                <f:facet name="footer">
+                    <div align="center" draggable="false" >
+                        <p:commandButton id="save" value="Submit" disabled="true" widgetVar="submitButtonWidget"
+                                     update="@form"
+                                     action="#{resourceController.actionSave()}"/>
+                    </div>
+                </f:facet>         
+            </p:panelGrid>
+            
                 <p:dataTable id="resources_table" var="rl"
                             emptyMessage="No resources yet"
                             value="#{resourceController.resources}">
@@ -32,6 +46,19 @@
                     <p:column headerText="Title" style="word-wrap: ">
                        <h:outputText value="#{rl.title}"/>
                    </p:column>
+                    <p:column headerText="Address" style="">
+                        <h:outputText value="#{rl.addressURL}"/>
+                   </p:column>
+                    <p:column headerText="Actions" style="width: 150px">
+                        <p:commandButton id="edit_resource_btn" value="Edit"
+                                     styleClass="edit"
+                                     action="#{resourceController.actionEdit(rl)}"/>
+                        <br/>
+                        <p:commandButton id="remove_resource_btn" value="Remove"
+                                         styleClass="remove"
+                                         update="resources_table"
+                                         actionListener="#{resourceController.actionListenerRemove(rl)}"/>
+                    </p:column>
                </p:dataTable>
             
      

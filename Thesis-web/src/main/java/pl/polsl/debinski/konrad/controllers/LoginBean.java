@@ -23,25 +23,61 @@ import pl.polsl.debinski.konrad.beans.AdminBean;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean implements Serializable{
+public class LoginBean{
     
+    /**
+     *  injected admin bean allows to validate credentials passed in frontend
+     */
     @EJB
     private AdminBean adminBean;
-    
-    private static final long serialVersionUID = 1094801825228386363L;
-    
+
+    /**
+     * login provided in form
+     */
     private String login;
+    /**
+     * password provided in form
+     */
     private String password;
-    private String msg;
     
+    /**
+     * validates login data and adds attribute to session map, then provides redirection
+     */
+    public void validateUsernamePassword() {
+            boolean valid = adminBean.validate(login, password);
+            FacesContext context = FacesContext.getCurrentInstance();
 
-    public String getMsg() {
-        return msg;
-    }
+            if (valid) {
+                context.getExternalContext().getSessionMap().put("user", login);
+                try {
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+                    context.getExternalContext().redirect("restricted/adminpanel.xhtml");
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                    context.addMessage(
+                                    null,
+                                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                                    "Authentication failed",
+                                                    "Check username or password"));
+            }
     }
+            
+    /**
+     * invalidates session and redirect to home page
+     */
+    public void logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getExternalContext().invalidateSession();
+
+        try {
+            context.getExternalContext().redirect("index.xhtml");
+        } catch (IOException ex) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+    }
+    
 
     public String getLogin() {
         return login;
@@ -59,39 +95,6 @@ public class LoginBean implements Serializable{
         this.password = password;
     }
     
-    //validate login
-	public void validateUsernamePassword() {
-		boolean valid = adminBean.validate(login, password);
-                FacesContext context = FacesContext.getCurrentInstance();
-                
-		if (valid) {
-                    context.getExternalContext().getSessionMap().put("user", login);
-                    try {
-                        
-                        context.getExternalContext().redirect("restricted/adminpanel.xhtml");
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-		} else {
-			context.addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,
-							"Authentication failed",
-							"Check username or password"));
-		}
-	}
-            
-	//logout event, invalidate session
-	public void logout() {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.getExternalContext().invalidateSession();
-            
-            try {
-                context.getExternalContext().redirect("adminlogin.xhtml");
-            } catch (IOException ex) {
-                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-            }       
-	}
     
     
 }
