@@ -3,26 +3,76 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Resource</title>
+        <script type="text/javascript"
+                src="https://www.viralpatel.net/demo/jquery/jquery.shorten.1.0.js">
+                    
+        </script>
+        <style>
+            .dataTable{
+                word-wrap: break-word;
+                width: fit-content;
+            }
+        </style>
     </h:head>
     <h:body>
         <h:form>
-            <p:dataTable id="resourcelist" var="data" value="#{resourcesController.data}" rows="10"
-                            paginator="true"
-                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                            rowsPerPageTemplate="5,10,15">
+            <p:dataTable id="resourcelist" 
+                         var="data" 
+                         value="#{resourcesController.data}" 
+                         rows="10"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" rendered="#{!resourcesController.big}"
+                         styleClass="dataTable">
                 <f:facet name="header">
                     #{resourcesController.title}
                 </f:facet>
-                <p:columns value="#{resourcesController.columns}" var="column" sortBy="#{data[column.property]}" filterBy="#{data[column.property]}">
+                <p:columns value="#{resourcesController.columns}" 
+                           var="column" 
+                           sortBy="#{data[column.property]}" filterBy="#{data[column.property]}">
                     <f:facet name="header">
                         #{column.header}
                     </f:facet>
-                    <h:outputText value="#{data[column.property]}"/>
+                    <h:outputText class="comment" 
+                                  value="#{data[column.property]}"/>
+                    <script type="text/javascript">
+                            $(document).ready(function() {
+
+                                    $(".comment").shorten({
+                                        "showChars": 200,
+                                        "moreText": "See more",
+                                        "lessText":"Less",
+                                    });
+
+                            });
+                    </script>
                 </p:columns>
             </p:dataTable>
+        
+            <p:dataView var="data" 
+                        value="#{resourcesController.data}" 
+                        rows="12" 
+                        paginator="true" 
+                        rowsPerPageTemplate="6,12,16"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rendered="#{resourcesController.big}">
+
+                <p:dataViewListItem>
+                        <p:outputPanel>
+                            <p:panelGrid columns="2" style="width:100%" >
+                                <c:forEach items="#{resourcesController.columns}" var="column">
+                                    <h:outputText value="#{column.header}:"/>
+                                    <h:outputText value="#{data[column.property]}"/>
+                                </c:forEach>
+                            </p:panelGrid>
+                        </p:outputPanel>
+                </p:dataViewListItem>
+            </p:dataView>
+            
         </h:form>
     </h:body>
 </html>

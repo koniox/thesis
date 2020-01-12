@@ -21,14 +21,14 @@ import pl.polsl.debinski.konrad.pojo.Resource;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 @ManagedBean(name = "resourceController", eager = true)
 @ViewScoped
 public class ResourceController implements Serializable{
     
     private Resource resource;
-    private Integer selectedResource;
     
     @ManagedProperty(value = "#{fileBean}")
     private FileBean fileBean;
@@ -36,8 +36,7 @@ public class ResourceController implements Serializable{
     @EJB
     private ResourceBean resourceBean;
 
-    
-    
+  
     @PostConstruct
     protected void init(){
         resource = (Resource) FacesContext.getCurrentInstance().
@@ -52,7 +51,7 @@ public class ResourceController implements Serializable{
         resource.setJsonDataString(fileBean.getFileData().get("json"));
         resource.setLabels(fileBean.getFileData().get("labels"));
         resource.setTitle(fileBean.getFileName().replaceAll("[_]", " "));
-        FacesMessage message = new FacesMessage("Resource is created ", "Change title and submit");
+        FacesMessage message = new FacesMessage("Resource is created ", "Change title/address and submit");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
@@ -61,27 +60,27 @@ public class ResourceController implements Serializable{
         resourceBean.createOrUpdateResource(resource);
         return "adminpanel";
     }
-
+    
+    public void actionListenerRemove(Resource resource){
+        resourceBean.deleteResource(resource.getId());
+    }
+    
+    public String actionEdit(Resource resource){
+        FacesContext.getCurrentInstance().getExternalContext().
+                getSessionMap().put("resource", resource);
+        return "editresource";
+    }
+    
     public Resource getResource() {
         return resource;
     }
-    
     
     public List<Resource> getResources(){
         return resourceBean.findAll();
     }
     
-    public Integer getSelectedResource() { 
-       return selectedResource;
-    }
-
-    public void setSelectedResource(Integer selectedResource) {
-        this.selectedResource = selectedResource;
-    }
-
     public void setFileBean(FileBean fileBean) {
         this.fileBean = fileBean;
     }
-    
-    
+       
 }

@@ -17,7 +17,8 @@ import pl.polsl.debinski.konrad.pojo.Resource;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 @ManagedBean(name = "resourceView", eager = true)
 @SessionScoped
@@ -28,8 +29,6 @@ public class ResourceViewBean implements Serializable{
     @EJB
     private ResourceBean resourceBean;
 
-    
-    
     public List<Resource> getResources(){
         return resourceBean.findAll();
     }

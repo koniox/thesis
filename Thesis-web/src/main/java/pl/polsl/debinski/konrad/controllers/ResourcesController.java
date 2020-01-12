@@ -24,7 +24,8 @@ import pl.polsl.debinski.konrad.utils.Model;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 @ManagedBean
 @ViewScoped
@@ -50,6 +51,10 @@ public class ResourcesController implements Serializable{
         
     }
     
+    public boolean isBig(){
+        return columns.size() > 8;
+    }
+    
     public List<Map<String,String>> stringToListOfMaps(String json){
         Gson gson = new Gson();
         Type resultType = new TypeToken<List<Map<String,String>>>(){}.getType();
@@ -58,11 +63,15 @@ public class ResourcesController implements Serializable{
         return gson.fromJson(json, resultType);
     }
 
-    
+    //regex - split by commas, but no inside quotation marks
     public void populateColumns(){
-        List<String> columnKeys = Arrays.asList(resourceBean.findById(resourceViewBean.getSelectedResource()).getLabels().split(","));
+        List<String> columnKeys = Arrays.asList(resourceBean.findById(resourceViewBean.getSelectedResource()).
+                                                                                       getLabels().
+                                                                                       split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"));
         for(String columnKey:columnKeys){
-            columns.add(new Model(columnKey.toUpperCase(), columnKey));
+            //added quoatation marks for all column labels for better "," escaping and here we are deleting it for formating
+            String columnKeyString = columnKey.replaceAll("\"", "");
+            columns.add(new Model(columnKeyString.toUpperCase(), columnKeyString));
         }
     }
 

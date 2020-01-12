@@ -29,11 +29,26 @@ import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
 @ManagedBean(name = "fileBean", eager = true)
 @ViewScoped
 public class FileBean implements Serializable{
+    /**
+     * file uploaded by primefaces component
+     */
     private UploadedFile file;
+    /**
+     * data of uploaded file after parsing
+     */
     private Map<String,String> fileData;
+    /**
+     * name of the file
+     */
     private String fileName;
     
-    public void handleFileUpload(FileUploadEvent event) throws IOException, Exception {
+    /**
+     * Handles uploading file 
+     * @param event upload of file 
+     * @throws IOException
+     * @throws Exception 
+     */
+    public void handleFileUpload(FileUploadEvent event) throws IOException, Exception{
         this.file = event.getFile();
         fileName = FilenameUtils.removeExtension(file.getFileName());
         InputStream in = file.getInputstream();
@@ -44,8 +59,7 @@ public class FileBean implements Serializable{
 
         Parser parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
 
-        fileData = parser.getJson(myFile);
-
+        fileData = parser.getData(myFile);
 
         if (file != null) {
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
@@ -60,8 +74,7 @@ public class FileBean implements Serializable{
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    
-    
+     
     public Map<String, String> getFileData() {
         return fileData;
     }
@@ -79,7 +92,5 @@ public class FileBean implements Serializable{
         this.file = file;
     }
 
-    
-    
-    
+  
 }
