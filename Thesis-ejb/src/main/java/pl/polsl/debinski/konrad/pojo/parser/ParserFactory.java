@@ -5,9 +5,12 @@
  */
 package pl.polsl.debinski.konrad.pojo.parser;
 
+import javax.resource.NotSupportedException;
+
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 public class ParserFactory {
     
@@ -20,6 +23,6 @@ public class ParserFactory {
             case "json":
                 return new Parser(new JSONParser());
         }
-        throw new Exception("wrong file type");
+        throw new NotSupportedException();
     }
 }

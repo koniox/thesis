@@ -18,7 +18,8 @@ import java.util.Map;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 public class JSONParser implements Parsable{
 
