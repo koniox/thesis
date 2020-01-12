@@ -26,7 +26,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author debin
+ * @author Konrad Dębiński
+ * @version 1.0
  */
 public class XLSXParser implements Parsable{
 

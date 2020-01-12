@@ -26,7 +26,7 @@ public class Parser {
         this.parser = parser;
     }
     
-    public Map<String,String> getJson(File file) throws IOException{
+    public Map<String,String> getData(File file) throws IOException{
         return parser.parse(file);
     }
     
