@@ -23,15 +23,15 @@ import pl.polsl.debinski.konrad.pojo.Resource;
 public class ResourceBean{
 
     /**
-     * 
+     * manager of entity instances
      */
     @PersistenceContext
     private EntityManager em;
     
     /**
-     * 
-     * @param resource
-     * @return 
+     * creates or updates the record in database 
+     * @param resource represents resource object
+     * @return object persisted into database
      */
     public Resource createOrUpdateResource(Resource resource){
         if(resource.getId() == null)
@@ -42,8 +42,8 @@ public class ResourceBean{
         return resource;
     }
     /**
-     * 
-     * @param id 
+     * deletes record from database
+     * @param id of record, which will be deleted
      */
     public void deleteResource(Integer id){
         Resource resource = em.find(Resource.class, id);
@@ -51,13 +51,18 @@ public class ResourceBean{
             em.remove(resource);
     }
     /**
-     * 
-     * @return 
+     * reads all record from database
+     * @return list of records from Resources table
      */
     public List<Resource> findAll(){
         return em.createNamedQuery("Resource.findAll").getResultList();
     }
     
+    /**
+     * reads record with specific id
+     * @param id of record to be read
+     * @return record with provided id
+     */
     public Resource findById(Integer id){
         return em.find(Resource.class, id);
     }
