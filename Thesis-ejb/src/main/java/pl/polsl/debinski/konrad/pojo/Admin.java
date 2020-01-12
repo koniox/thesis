@@ -29,25 +29,44 @@ import javax.persistence.Table;
             query = "SELECT a FROM Admin a where a.login LIKE :validationLogin and a.password LIKE :validationPwd"),
 })
 public class Admin implements Serializable {
-    
+    /**
+     * query name
+     */
     public static final String FIND_ALL = "Admin.findAll";
+    /**
+     * query name
+     */
     public static final String IS_IN_DATABASE = "Admin.isThere";
+    
+    /**
+     * id of the record
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
+    /**
+     * login
+     */
     @Column(name = "login")
     private String login;
-    
+    /**
+     * password
+     */
     @Column(name = "password")
     private String password;
-
+    /**
+     * constructor
+     * @param login login
+     * @param password password
+     */
     public Admin(String login, String password) {
         this.login = login;
         this.password = password;
     }
-
+    /**
+     * default constructor
+     */
     public Admin() {
     }
      
@@ -86,7 +105,6 @@ public class Admin implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Admin)) {
             return false;
         }

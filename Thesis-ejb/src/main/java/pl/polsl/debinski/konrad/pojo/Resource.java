@@ -10,6 +10,10 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -20,6 +24,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "resources")
 @NamedQueries({@NamedQuery(name = Resource.FIND_ALL,query = "SELECT r FROM Resource r")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resource implements Serializable {
     
     /**
@@ -55,14 +61,31 @@ public class Resource implements Serializable {
     @Lob
     private String jsonDataString;
 
-    public Resource(String title, String labels, String jsonDataString) {
+    /**
+     * address url of resource
+     */
+    @Column(name ="resource_address")
+    private String addressURL;
+
+    public Resource(String title, String labels, String jsonDataString, String addressURL) {
         this.title = title;
         this.labels = labels;
         this.jsonDataString = jsonDataString;
+        this.addressURL = addressURL;
     }
+  
 
     public Resource() {
     }
+
+    public String getAddressURL() {
+        return addressURL;
+    }
+
+    public void setAddressURL(String addressURL) {
+        this.addressURL = addressURL;
+    }
+    
     
     
     public Integer getId() {
