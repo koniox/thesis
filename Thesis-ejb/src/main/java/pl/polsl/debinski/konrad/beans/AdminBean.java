@@ -19,13 +19,21 @@ import pl.polsl.debinski.konrad.pojo.Admin;
  * @author Konrad Dębiński
  * @version 1.0
  */
-@Stateless
+@Stateless  
 @LocalBean
 public class AdminBean {
     
+    /**
+     * manager of entity instances
+     */
     @PersistenceContext
     private EntityManager em;
     
+    /**
+     * creates or updates the record in database
+     * @param admin represents administrator object
+     * @return object persisted into database
+     */
     public Admin createOrUpdateAdmin(Admin admin){
         if(admin.getId() == null)
             em.persist(admin);
@@ -35,8 +43,8 @@ public class AdminBean {
         return admin;
     }
     /**
-     * 
-     * @param id 
+     * deletes record from database
+     * @param id of record, which will be deleted
      */
     public void deleteAdmin(Integer id){
         Admin admin = em.find(Admin.class, id);
@@ -44,13 +52,19 @@ public class AdminBean {
             em.remove(admin);
     }
     /**
-     * 
-     * @return 
+     * reads all records from database
+     * @return list of records from Admins table 
      */
     public List<Admin> findAll(){
         return em.createNamedQuery("Admin.findAll").getResultList();
     }
     
+    /**
+     * checks if there is in database record with provided data
+     * @param login 
+     * @param password
+     * @return boolean information if there is in database record with provided data
+     */
     public boolean validate(String login, String password){
         List<Admin> admins =  em.createNamedQuery("Admin.isThere")
                 .setParameter("validationLogin", login)
