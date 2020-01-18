@@ -52,7 +52,7 @@ public class ResourcesController implements Serializable{
     }
     
     public boolean isBig(){
-        return columns.size() > 8;
+        return columns.size() > 138;
     }
     
     public List<Map<String,String>> stringToListOfMaps(String json){

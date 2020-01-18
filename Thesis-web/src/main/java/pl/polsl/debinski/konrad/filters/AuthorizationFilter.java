@@ -18,10 +18,6 @@ import javax.servlet.http.HttpSession;
 @WebFilter(urlPatterns = "/restricted/*",filterName = "AdminFilter")
 public class AuthorizationFilter implements Filter{
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-       //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -32,16 +28,20 @@ public class AuthorizationFilter implements Filter{
         boolean loggedIn = session != null && session.getAttribute("user") != null;
         boolean resourceRequest = request.getRequestURI().startsWith(request.getContextPath() + ResourceHandler.RESOURCE_IDENTIFIER);
         if (loggedIn  || resourceRequest) {
-            response.sendRedirect("http://localhost:8080/Thesis-web/restricted/adminpanel.xhtml");
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("http://localhost:8080/Thesis-web/resource.xhtml");
-        }       
+            response.sendRedirect("http://localhost:8080/Thesis-web/adminlogin.xhtml");
+        }        
+    }
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void destroy() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

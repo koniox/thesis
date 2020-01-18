@@ -5,6 +5,7 @@
  */
 package pl.polsl.debinski.konrad.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -34,14 +35,20 @@ public class ResourceService{
     
     @GET
     //@Path("/resources")
-    @Produces(MediaType.APPLICATION_XML) 
-    public List<Resource> getResources(){
-        return resourceBean.findAll();
+    @Produces(MediaType.APPLICATION_JSON) 
+    public List<ResourceSlice> getResources(){
+        List<Resource> resources = resourceBean.findAll();
+        List<ResourceSlice> resourceSlices = new ArrayList<>();
+        for(Resource r: resources){
+            ResourceSlice rs = new ResourceSlice(r.getId().toString(),r.getTitle(),r.getAddressURL());
+            resourceSlices.add(rs);
+        }
+        return resourceSlices;
     }
     
     @GET
     @Path("/{resourceid}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
     public Resource getResource(@PathParam("resourceid") int resourceId){
         return resourceBean.findById(resourceId);
     }
