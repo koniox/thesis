@@ -6,6 +6,7 @@
 package pl.polsl.debinski.konrad.controllers;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -22,7 +23,7 @@ import pl.polsl.debinski.konrad.beans.AdminBean;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean{
+public class LoginBean implements Serializable{
     
     /**
      *  injected admin bean allows to validate credentials passed in frontend

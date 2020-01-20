@@ -14,15 +14,19 @@ import javax.resource.NotSupportedException;
  */
 public class ParserFactory {
     
-    public Parser createParser(String fileExtension) throws Exception{
+    public Parsable createParser(String fileExtension) throws Exception{
         switch(fileExtension){
             case "csv":
-                return new Parser(new CSVParser());
+                return new CSVParser();
             case "xlsx":
-                return new Parser(new XLSXParser());
+                return new XLSXParser();
             case "json":
-                return new Parser(new JSONParser());
+                return new JSONParser();
+            case "xls":
+                return new XLSParser();
+            default:
+                throw new NotSupportedException();
         }
-        throw new NotSupportedException();
+        
     }
 }

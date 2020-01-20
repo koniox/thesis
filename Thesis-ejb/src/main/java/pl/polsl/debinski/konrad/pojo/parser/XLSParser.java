@@ -9,27 +9,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-
 /**
  *
  * @author Konrad Dębiński
  * @version 1.0
  */
-public class Parser {
-    private Parsable parser;
-    
-    
-    public Parser(){
-        
+public class XLSParser implements Parsable{
+
+    @Override
+    public Map<String, String> parse(File file) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public Parser(Parsable parser){
-        this.parser = parser;
-    }
-    
-    public Map<String,String> getData(File file) throws IOException{
-        return parser.parse(file);
-    }
-    
-   
 }

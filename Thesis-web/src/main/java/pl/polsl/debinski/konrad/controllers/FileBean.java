@@ -18,7 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import pl.polsl.debinski.konrad.pojo.parser.Parser;
+import pl.polsl.debinski.konrad.pojo.parser.Parsable;
 import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
 
 /**
@@ -57,9 +57,9 @@ public class FileBean implements Serializable{
       
         ParserFactory parserFactory = new ParserFactory();
 
-        Parser parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
+        Parsable parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
 
-        fileData = parser.getData(myFile);
+        fileData = parser.parse(myFile);
 
         if (file != null) {
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");

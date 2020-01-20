@@ -17,7 +17,7 @@
             <p:commandButton action="index"
                          value="Resources"
                          style="float: right;"/>
-            <p:fileUpload  fileUploadListener="#{fileBean.handleFileUpload}" mode="advanced" auto="true" allowTypes="/(\.|\/)(csv|xls?x|xml|json)$/" update="msg" oncomplete="fileUploadCallback()"/>
+            <p:fileUpload  fileUploadListener="#{fileBean.handleFileUpload}" mode="advanced" auto="true" allowTypes="/(\.|\/)(csv|xls?x|json)$/" update="msg" oncomplete="fileUploadCallback()"/>
             <p:remoteCommand name="fileUploadCallback" action="#{resourceController.fileUpload()}" update="@form" oncomplete="PF('submitButtonWidget').enable()"/>
             
             <p:panelGrid columns="1" style="margin: auto">
