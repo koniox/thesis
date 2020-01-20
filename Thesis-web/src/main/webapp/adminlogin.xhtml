@@ -4,21 +4,34 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
+        <style>        
+            #loginForm {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                background-color: #bfbfbf;
+                border-radius: 10px;
+                padding: 40px;
+                box-shadow: 2px 2px 93px -26px rgba(0,0,0,0.75);
+            }
+            #loginForm input {
+                margin-bottom: 20px;
+            }
+        </style>
         <title>Login as administrator</title>
     </h:head>
-    <h:body style="background-color:#6F6C6C; background-size: cover; font-family: sans-serif">
+    <h:body style="background-color: #faf6eb; background-size: cover; font-family: sans-serif">
         <h:form id="loginForm" style="display:block; text-align:center" >
             <h1>Administrator panel</h1>
             <p:growl id="message" showDetail="true" />
             <h:outputText value="Username " />
             <p:inputText id="login" value="#{loginBean.login}"></p:inputText>
             <p:message for="login"></p:message>
-            <br></br><br></br>
 
             <h:outputText value="Password  " />
             <p:password id="password"  value="#{loginBean.password}"></p:password>
             <p:message for="password"></p:message>
-            <br></br>
 
             <p:commandButton value="Login" id="login_btn" actionListener="#{loginBean.validateUsernamePassword}" update="message" />
         </h:form>

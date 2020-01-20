@@ -28,7 +28,7 @@ public class Model implements Serializable{
     public String getProperty() {
         return property;
     }
-
+    
     
     
     
