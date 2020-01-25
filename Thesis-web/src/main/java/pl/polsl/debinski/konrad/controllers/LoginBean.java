@@ -23,7 +23,7 @@ import pl.polsl.debinski.konrad.beans.AdminBean;
  */
 @ManagedBean
 @SessionScoped
-public class LoginBean{
+public class LoginBean implements Serializable{
     
     /**
      *  injected admin bean allows to validate credentials passed in frontend

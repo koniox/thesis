@@ -35,7 +35,7 @@ public class ResourceService{
     
     @GET
     //@Path("/resources")
-    @Produces(MediaType.APPLICATION_JSON) 
+    @Produces(MediaType.APPLICATION_XML) 
     public List<ResourceSlice> getResources(){
         List<Resource> resources = resourceBean.findAll();
         List<ResourceSlice> resourceSlices = new ArrayList<>();

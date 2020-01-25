@@ -5,19 +5,26 @@
  */
 package pl.polsl.debinski.konrad.rest;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author debin
  */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ResourceSlice {
+@XmlRootElement(name = "Resource")
+@XmlAccessorType(XmlAccessType.NONE)
+public class ResourceSlice implements Serializable{
+    
+    @XmlAttribute
     private String id;
+    @XmlElement(name = "Title")
     private String title;
+    @XmlElement(name = "URL")
     private String address;
 
     public String getId() {

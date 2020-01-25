@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,7 +20,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import pl.polsl.debinski.konrad.pojo.parser.Parser;
+import pl.polsl.debinski.konrad.pojo.parser.Parsable;
 import pl.polsl.debinski.konrad.pojo.parser.ParserFactory;
 
 /**
@@ -48,7 +50,7 @@ public class FileBean implements Serializable{
      * @throws IOException
      * @throws Exception 
      */
-    public void handleFileUpload(FileUploadEvent event) throws IOException, Exception{
+    public void handleFileUpload(FileUploadEvent event) throws IOException{
         this.file = event.getFile();
         fileName = FilenameUtils.removeExtension(file.getFileName());
         InputStream in = file.getInputstream();
@@ -57,13 +59,24 @@ public class FileBean implements Serializable{
       
         ParserFactory parserFactory = new ParserFactory();
 
-        Parser parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
-
-        fileData = parser.getData(myFile);
-
-        if (file != null) {
+        Parsable parser;
+        try {
+            parser = parserFactory.createParser(FilenameUtils.getExtension(file.getFileName()));
+            fileData = parser.parse(myFile);
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (Exception ex) {
+            Logger.getLogger(FileBean.class.getName()).log(Level.SEVERE, null, ex);
+            FacesMessage message = new FacesMessage("File error","File might be corrupted");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+
+        
+
+        if (fileData != null) {
+            
+        }else{
+            
         }      
     }
     

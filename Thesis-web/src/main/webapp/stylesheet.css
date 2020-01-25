@@ -1,0 +1,51 @@
+.dataTable {
+    word-wrap: break-word;
+    width: fit-content !important;
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.ui-sidebar-top {
+    height: 20em;
+}
+.ui-datatable table{
+    table-layout: unset;
+    width: unset;
+    margin: 0 auto;
+}
+.ui-datatable .ui-sortable-column-icon {
+    display: none;
+    visibility: hidden;
+}
+.ui-widget {
+    font-size: 0.8em;
+}
+.ui-column-title {
+    max-height: 100px;
+}
+.header-button {
+    display: inline-block;
+    margin: 0 20px;
+}
+.ui-dataview-layout-options {
+    display: none;
+    visibility: hidden;
+}
+.panelGrid {
+    margin: 0 auto;
+    border: solid 2px;
+}
+
+
+.ui-dataview-list-container li:not(:last-child){
+    padding-bottom: 20px;
+    
+}
+
+.panelGrid tbody tr:nth-child(2n){
+    background-color: #f2f5f9;
+}
+.panelGrid tbody tr:first-child{
+    font-weight: 700;
+}
+
