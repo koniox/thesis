@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- *
+ * Parser interface
  * @author Konrad Dębiński
  * @version 1.0
  */

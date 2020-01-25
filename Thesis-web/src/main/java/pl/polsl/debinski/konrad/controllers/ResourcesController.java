@@ -44,6 +44,9 @@ public class ResourcesController implements Serializable{
     private List<String> filterValues;
     private String filterValue;
     Map<String,List<String>> uniqueValuesMap;
+//    Map<String,List<String>> notUsedUniqueValues;
+    Map<String,String> filterHistoryMap = new HashMap<>();
+
     
     @ManagedProperty(value = "#{resourceView}")
     private ResourceViewBean resourceViewBean;
@@ -59,6 +62,7 @@ public class ResourcesController implements Serializable{
             title = resourceBean.findById(resourceViewBean.getSelectedResource()).getTitle();
             populateColumns();
             uniqueValuesMap = numberOfUniqueValues();
+        //    notUsedUniqueValues = uniqueValuesMap;
         }
         
     }
@@ -79,6 +83,23 @@ public class ResourcesController implements Serializable{
         }
     }
     
+    public void removeUsedUniqueValue(){
+        
+        if(uniqueValuesMap.get(selectedColumnKey) != null){
+            Iterator<String> iterator = uniqueValuesMap.get(selectedColumnKey).iterator();
+            while(iterator.hasNext()){
+               String entry = iterator.next();
+               boolean isFound = false;
+                for(String temp:filterValues){
+                    if(temp.equals(entry))
+                        isFound = true;
+                }
+                if(!isFound)
+                    iterator.remove();
+            }
+        }
+            
+        }
     public List<String> valuesOfKeyList(){
         return uniqueValuesMap.get(selectedColumnKey);
     }
@@ -112,6 +133,10 @@ public class ResourcesController implements Serializable{
                                 if(val.compareTo(Double.parseDouble(filterValue)) >= 0){
                                     temp.add(row);
                                 }
+                            }else{
+                                if(row.get(selectedColumnKey).compareTo(filterValue) >= 0){
+                                    temp.add(row);
+                                }
                             }
                             break;
                         }
@@ -119,6 +144,10 @@ public class ResourcesController implements Serializable{
                             if(isNumeric(row.get(selectedColumnKey)) && isNumeric(filterValue)){
                                 Double val = Double.parseDouble(row.get(selectedColumnKey));
                                 if(val.compareTo(Double.parseDouble(filterValue)) <= 0){
+                                    temp.add(row);
+                                }
+                            }else{
+                                if(row.get(selectedColumnKey).compareTo(filterValue) <= 0){
                                     temp.add(row);
                                 }
                             }
@@ -140,7 +169,9 @@ public class ResourcesController implements Serializable{
                 }
                 
             }
-
+            
+            removeUsedUniqueValue();
+            filterHistoryMap.put(selectedColumnKey, ".");
             selectedColumnKey = null;
             filterType = null;
             filterValue = null;
@@ -148,6 +179,15 @@ public class ResourcesController implements Serializable{
             filteredData = temp;
         }
     }
+
+    public Map<String, String> getFilterHistoryMap() {
+        return filterHistoryMap;
+    }
+
+    public void setFilterHistoryMap(Map<String, String> filterHistoryMap) {
+        this.filterHistoryMap = filterHistoryMap;
+    }
+    
     
     public Map<String,List<String>> numberOfUniqueValues(){
         Map<String,List<String>> values = new HashMap<>();

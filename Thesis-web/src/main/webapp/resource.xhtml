@@ -27,7 +27,7 @@
                     <h1 style="font-weight:normal">Filter menu</h1>
                     <p:selectOneMenu id="columnChoice" value="#{resourcesController.selectedColumnKey}">
                         <f:selectItem itemLabel="Select column" itemValue="empty" noSelectionOption="true"/>
-                        <f:selectItems value="#{resourcesController.columns}" var="column" itemLabel="#{column.header}" itemValue="#{column.property}" />
+                        <f:selectItems value="#{resourcesController.columns}" var="column" itemLabel="#{column.header} #{not empty resourcesController.filterHistoryMap[column.property] ? ' * ' : ''}" itemValue="#{column.property}" />
                         <p:ajax event="change" update="menu"/>
                     </p:selectOneMenu>
                     <p:commandButton value="Submit" id="filterSubmit" action="#{resourcesController.filter()}" update="growl,@form"/>
@@ -68,10 +68,11 @@
                          rowsPerPageTemplate="5,10,15" rendered="#{!resourcesController.big}"
                          styleClass="dataTable">
                     
-                    <f:facet name="header">
+                    <f:facet name="header" >
                         <p:commandButton onclick="PF('filterSidebar').show()" value="Filter" styleClass="header-button"/>
                         #{resourcesController.title}
                          <p:commandButton id="toggler" type="button" value="Columns" styleClass="header-button"/>
+                         <p:commandButton value="Reset table state" styleClass="header-button" action="resource"/>
                          <p:columnToggler datasource="resourcelist" trigger="toggler" />
                     </f:facet>
                     
